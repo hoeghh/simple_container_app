@@ -45,7 +45,7 @@ spec:
     protocol: TCP
     port: 5000
 
-"
+" > deployment/srv-my-app.yaml
 
 echo "
 apiVersion: extensions/v1beta1
