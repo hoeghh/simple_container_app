@@ -102,7 +102,7 @@ job("Telenor-Pipeline/simple_test") {
     shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/cleanup_staging', 'Telenor-Pipeline/deploy_to_production') {
+    buildPipelineTrigger('Telenor-Pipeline/cleanup_staging, Telenor-Pipeline/deploy_to_production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
