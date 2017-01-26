@@ -18,7 +18,7 @@ job("Telenor-Pipeline/BuildAndPush") {
   }
 
   triggers {
-    scm('H/15 * * * *')
+    scm('* * * * *')
   }
 
   wrappers {
