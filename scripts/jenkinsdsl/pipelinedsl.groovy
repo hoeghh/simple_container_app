@@ -52,6 +52,23 @@ job("Telenor-Pipeline/BuildAndPush") {
 
 
 job("Telenor-Pipeline/deploy_to_stagging") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  triggers {
+    scm('H/15 * * * *')
+  }
+
   steps {
     shell("./simple-container-app/scripts/stag-deploy.sh \$GIT_COMMIT")
   }
@@ -69,6 +86,23 @@ job("Telenor-Pipeline/deploy_to_stagging") {
 }
 
 job("Telenor-Pipeline/simple_test") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  triggers {
+    scm('H/15 * * * *')
+  }
+
   steps {
     shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
@@ -76,12 +110,46 @@ job("Telenor-Pipeline/simple_test") {
 
 
 job("Telenor-Pipeline/deploy_to_production") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  triggers {
+    scm('H/15 * * * *')
+  }
+
   steps {
     shell("./simple-container-app/scripts/prod_deploy.sh \$GIT_COMMIT")
   }
 }
 
 job("Telenor-Pipeline/rollback-production") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  triggers {
+    scm('H/15 * * * *')
+  }
+
   steps {
     shell("./simple-container-app/scripts/prod_rollback.sh \$GIT_COMMIT")
   }
