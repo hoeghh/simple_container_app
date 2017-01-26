@@ -66,6 +66,9 @@ job("Telenor-Pipeline/deploy_to_stagging") {
   }
 
   steps {
+    shell("kubectl config use-context default-context")
+  }
+  steps {
     shell("./simple-container-app/scripts/deploy-staging.sh \$GIT_COMMIT")
   }
 
