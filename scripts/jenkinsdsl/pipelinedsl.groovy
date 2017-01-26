@@ -23,7 +23,7 @@ job("Telenor-Pipeline/BuildAndPush") {
 
   //Shell step
   steps {
-		shell("echo 'Hi Henrik', checking out... \$GIT_COMMIT")
+		shell("whoami; echo 'Hi Henrik', checking out... \$GIT_COMMIT")
 	}
   steps {
 		shell("./simple-container-app/scripts/build.sh \$GIT_COMMIT")
