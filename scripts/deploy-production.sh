@@ -1,5 +1,5 @@
-echo "Deploying app to staging."
-kubectl create namespace $1
+echo "Deploying app to production."
+kubectl create namespace production
 
 echo "
 apiVersion: extensions/v1beta1
@@ -24,7 +24,7 @@ spec:
         ports:
         - name: web
           containerPort: 5000
-" > deployment/dep-my-app.yaml
+" > deployment/prod-dep-my-app.yaml
 
 echo "
 apiVersion: v1
@@ -43,7 +43,7 @@ spec:
     protocol: TCP
     port: 5000
 
-" > deployment/srv-my-app.yaml
+" > deployment/prod-srv-my-app.yaml
 
 echo "
 apiVersion: extensions/v1beta1
@@ -52,7 +52,7 @@ metadata:
   name: myapp
 spec:
   rules:
-  - host: $1.example.com
+  - host: production.example.com
     http:
       paths:
       - path: /
@@ -60,8 +60,8 @@ spec:
           serviceName: myapp
           servicePort: 5000
 
-" > deployment/ing-my-app.yaml
+" > deployment/prod-ing-my-app.yaml
 
-kubectl create -f deployment/dep-my-app.yaml --namespace=$1
-kubectl create -f deployment/srv-my-app.yaml --namespace=$1
-kubectl create -f deployment/ing-my-app.yaml --namespace=$1
+kubectl create -f deployment/prod-dep-my-app.yaml --namespace=production
+kubectl create -f deployment/prod-srv-my-app.yaml --namespace=production
+kubectl create -f deployment/prod-ing-my-app.yaml --namespace=production
