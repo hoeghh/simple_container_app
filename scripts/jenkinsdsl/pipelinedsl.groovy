@@ -26,10 +26,10 @@ job("Telenor-Pipeline/BuildAndPush") {
 		shell("echo 'Hi Henrik', checking out... \$GIT_COMMIT")
 	}
   steps {
-		shell("./simple-container-app/script/build.sh \$GIT_COMMIT")
+		shell("./simple-container-app/scripts/build.sh \$GIT_COMMIT")
 	}
   steps {
-		shell("./simple-container-app/script/push.sh \$GIT_COMMIT")
+		shell("./simple-container-app/scripts/push.sh \$GIT_COMMIT")
 	}
 
   steps {
@@ -47,7 +47,7 @@ job("Telenor-Pipeline/BuildAndPush") {
 
 job("Telenor-Pipeline/deploy_to_stagging") {
   steps {
-    shell("./simple-container-app/script/stag-deploy.sh \$GIT_COMMIT")
+    shell("./simple-container-app/scripts/stag-deploy.sh \$GIT_COMMIT")
   }
 
   steps {
@@ -64,20 +64,20 @@ job("Telenor-Pipeline/deploy_to_stagging") {
 
 job("Telenor-Pipeline/simple_test") {
   steps {
-    shell("./simple-container-app/script/test.sh \$GIT_COMMIT")
+    shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
 }
 
 
 job("Telenor-Pipeline/deploy_to_production") {
   steps {
-    shell("./simple-container-app/script/prod_deploy.sh \$GIT_COMMIT")
+    shell("./simple-container-app/scripts/prod_deploy.sh \$GIT_COMMIT")
   }
 }
 
 job("Telenor-Pipeline/rollback-production") {
   steps {
-    shell("./simple-container-app/script/prod_rollback.sh \$GIT_COMMIT")
+    shell("./simple-container-app/scripts/prod_rollback.sh \$GIT_COMMIT")
   }
 }
 
