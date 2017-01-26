@@ -102,11 +102,30 @@ job("Telenor-Pipeline/simple_test") {
     shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/deploy_to_stagging') {
+    buildPipelineTrigger('Telenor-Pipeline/cleanup_staging', 'Telenor-Pipeline/deploy_to_production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
     }
+  }
+}
+
+job("Telenor-Pipeline/cleanup_staging") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  steps {
+    shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
   }
 }
 
