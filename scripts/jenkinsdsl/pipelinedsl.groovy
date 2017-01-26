@@ -21,9 +21,15 @@ job("Telenor-Pipeline/BuildAndPush") {
     scm('H/15 * * * *')
   }
 
+  wrappers {
+      credentialsBinding {
+          string('dockerloginpwd', 'dockerlogin')
+      }
+  }
+
   //Shell step
   steps {
-		shell("whoami; echo 'Hi Henrik', checking out... \$GIT_COMMIT")
+		shell("docker login -u hoeghh -p \$dockerloginpwd")
 	}
   steps {
 		shell("./simple-container-app/scripts/build.sh \$GIT_COMMIT")
