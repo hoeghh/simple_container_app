@@ -65,10 +65,6 @@ job("Telenor-Pipeline/deploy_to_stagging") {
       }
   }
 
-  triggers {
-    scm('H/15 * * * *')
-  }
-
   steps {
     shell("./simple-container-app/scripts/stag-deploy.sh \$GIT_COMMIT")
   }
@@ -99,10 +95,6 @@ job("Telenor-Pipeline/simple_test") {
       }
   }
 
-  triggers {
-    scm('H/15 * * * *')
-  }
-
   steps {
     shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
@@ -123,10 +115,6 @@ job("Telenor-Pipeline/deploy_to_production") {
       }
   }
 
-  triggers {
-    scm('H/15 * * * *')
-  }
-
   steps {
     shell("./simple-container-app/scripts/prod_deploy.sh \$GIT_COMMIT")
   }
@@ -144,10 +132,6 @@ job("Telenor-Pipeline/rollback-production") {
               relativeTargetDirectory('simple-container-app')
           }
       }
-  }
-
-  triggers {
-    scm('H/15 * * * *')
   }
 
   steps {
