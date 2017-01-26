@@ -7,3 +7,4 @@ else
   echo "failed: $responsecode"
   exit 1
 fi
+# A very simple test
