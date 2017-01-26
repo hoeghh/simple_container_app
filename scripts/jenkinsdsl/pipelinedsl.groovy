@@ -145,7 +145,7 @@ job("Telenor-Pipeline/deploy_to_production") {
   }
 
   steps {
-    shell("./simple-container-app/scripts/deploy-production.sh \$GIT_COMMIT")
+    shell("cd simple-container-app/scripts/; ./simple-container-app/scripts/deploy-production.sh \$GIT_COMMIT")
   }
 }
 
