@@ -62,6 +62,6 @@ spec:
 
 " > deployment/prod-ing-my-app.yaml
 
-kubectl create -f deployment/prod-dep-my-app.yaml --namespace=production
-kubectl create -f deployment/prod-srv-my-app.yaml --namespace=production
-kubectl create -f deployment/prod-ing-my-app.yaml --namespace=production
+kubectl apply -f deployment/prod-dep-my-app.yaml --namespace=production --record
+kubectl apply -f deployment/prod-srv-my-app.yaml --namespace=production --record
+kubectl apply -f deployment/prod-ing-my-app.yaml --namespace=production --record
