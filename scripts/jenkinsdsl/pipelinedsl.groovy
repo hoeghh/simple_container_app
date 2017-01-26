@@ -66,7 +66,7 @@ job("Telenor-Pipeline/deploy_to_stagging") {
   }
 
   steps {
-    shell("./simple-container-app/scripts/stag-deploy.sh \$GIT_COMMIT")
+    shell("./simple-container-app/scripts/deploy-staging.sh \$GIT_COMMIT")
   }
 
   steps {
