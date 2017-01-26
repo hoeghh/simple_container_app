@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: hoeghh/myapp:$1
+        image: hoeghh/flash-hello:$1
         ports:
         - name: web
           containerPort: 5000
