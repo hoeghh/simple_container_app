@@ -205,6 +205,14 @@ job("Telenor-Pipeline/deploy_to_production") {
   steps {
     shell("cd simple-container-app/scripts/; ./deploy-production.sh \$GIT_COMMIT")
   }
+
+  publishers {
+    buildPipelineTrigger('Telenor-Pipeline/rollback-production') {
+        parameters {
+            predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+        }
+    }
+  }
 }
 
 job("Telenor-Pipeline/rollback-production") {
