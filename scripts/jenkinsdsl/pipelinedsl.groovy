@@ -101,12 +101,15 @@ job("Telenor-Pipeline/simple_test") {
   steps {
     shell("./simple-container-app/scripts/test.sh \$GIT_COMMIT")
   }
-  publishers {
-    buildPipelineTrigger('Telenor-Pipeline/cleanup_staging, Telenor-Pipeline/deploy_to_production') {
-        parameters {
-            predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+  steps {
+    //Automatisk
+  	downstreamParameterized {
+  		trigger("cleanup_staging") {
+  			parameters {
+                  gitRevision()
         }
-    }
+  		}
+  	}
   }
 }
 
@@ -127,8 +130,70 @@ job("Telenor-Pipeline/cleanup_staging") {
   steps {
     shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
   }
+  publishers {
+    buildPipelineTrigger('Telenor-Pipeline/redeploy_staging, Telenor-Pipeline/deploy_to_production') {
+        parameters {
+            predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+        }
+    }
+  }
 }
 
+job("Telenor-Pipeline/redeploy_to_stagging") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  steps {
+    shell("kubectl config use-context default-context")
+  }
+  steps {
+    shell("cd simple-container-app/scripts/; ./deploy-staging.sh \$GIT_COMMIT")
+  }
+
+  publishers {
+    buildPipelineTrigger('Telenor-Pipeline/recleanup_staging') {
+        parameters {
+            predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+        }
+    }
+  }
+}
+
+job("Telenor-Pipeline/recleanup_staging") {
+  scm {
+      git {
+          remote {
+              name('Simple-Container-App')
+              url('https://github.com/hoeghh/simple_container_app.git')
+          }
+          extensions {
+              cleanAfterCheckout()
+              relativeTargetDirectory('simple-container-app')
+          }
+      }
+  }
+
+  steps {
+    shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
+  }
+  publishers {
+    buildPipelineTrigger('Telenor-Pipeline/redeploy_staging, Telenor-Pipeline/deploy_to_production') {
+        parameters {
+            predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
+        }
+    }
+  }
+}
 
 job("Telenor-Pipeline/deploy_to_production") {
   scm {
