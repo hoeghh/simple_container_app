@@ -131,7 +131,7 @@ job("Telenor-Pipeline/cleanup_staging") {
     shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
   }
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/redeploy_staging, Telenor-Pipeline/deploy_to_production') {
+    buildPipelineTrigger('Telenor-Pipeline/redeploy_to_stagging, Telenor-Pipeline/deploy_to_production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
