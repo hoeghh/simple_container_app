@@ -41,7 +41,7 @@ job("Telenor-Pipeline/BuildAndPush") {
   steps {
   	//Automatisk
   	downstreamParameterized {
-  		trigger("deploy_to_stagging") {
+  		trigger("deploy_to_staging") {
   			parameters {
                   gitRevision()
         }
@@ -51,7 +51,7 @@ job("Telenor-Pipeline/BuildAndPush") {
 }
 
 
-job("Telenor-Pipeline/deploy_to_stagging") {
+job("Telenor-Pipeline/deploy_to_staging") {
   scm {
       git {
           remote {
@@ -131,7 +131,7 @@ job("Telenor-Pipeline/cleanup_staging") {
     shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
   }
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/redeploy_to_stagging, Telenor-Pipeline/deploy_to_production') {
+    buildPipelineTrigger('Telenor-Pipeline/redeploy_to_staging, Telenor-Pipeline/deploy_to_production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
@@ -139,7 +139,7 @@ job("Telenor-Pipeline/cleanup_staging") {
   }
 }
 
-job("Telenor-Pipeline/redeploy_to_stagging") {
+job("Telenor-Pipeline/redeploy_to_staging") {
   scm {
       git {
           remote {
