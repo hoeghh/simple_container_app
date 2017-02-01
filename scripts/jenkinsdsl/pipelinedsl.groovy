@@ -1,9 +1,9 @@
 // FreeStyle job examples
 // This script needs Docker installed on the machine running the job.
 
-folder("Telenor-Pipeline")
+folder("Simple-Pipeline")
 
-job("Telenor-Pipeline/BuildAndPush") {
+job("Simple-Pipeline/BuildAndPush") {
   scm {
       git {
           remote {
@@ -51,7 +51,7 @@ job("Telenor-Pipeline/BuildAndPush") {
 }
 
 
-job("Telenor-Pipeline/deploy_to_staging") {
+job("Simple-Pipeline/deploy_to_staging") {
   scm {
       git {
           remote {
@@ -84,7 +84,7 @@ job("Telenor-Pipeline/deploy_to_staging") {
   }
 }
 
-job("Telenor-Pipeline/simple_test") {
+job("Simple-Pipeline/simple_test") {
   scm {
       git {
           remote {
@@ -113,7 +113,7 @@ job("Telenor-Pipeline/simple_test") {
   }
 }
 
-job("Telenor-Pipeline/cleanup_staging") {
+job("Simple-Pipeline/cleanup_staging") {
   scm {
       git {
           remote {
@@ -131,7 +131,7 @@ job("Telenor-Pipeline/cleanup_staging") {
     shell("./simple-container-app/scripts/clean_staging.sh \$GIT_COMMIT")
   }
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/redeploy_to_staging, Telenor-Pipeline/deploy_to_production') {
+    buildPipelineTrigger('Simple-Pipeline/redeploy_to_staging, Simple-Pipeline/deploy_to_production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
@@ -139,7 +139,7 @@ job("Telenor-Pipeline/cleanup_staging") {
   }
 }
 
-job("Telenor-Pipeline/redeploy_to_staging") {
+job("Simple-Pipeline/redeploy_to_staging") {
   scm {
       git {
           remote {
@@ -161,7 +161,7 @@ job("Telenor-Pipeline/redeploy_to_staging") {
   }
 
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/recleanup_staging') {
+    buildPipelineTrigger('Simple-Pipeline/recleanup_staging') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
@@ -169,7 +169,7 @@ job("Telenor-Pipeline/redeploy_to_staging") {
   }
 }
 
-job("Telenor-Pipeline/recleanup_staging") {
+job("Simple-Pipeline/recleanup_staging") {
   scm {
       git {
           remote {
@@ -188,7 +188,7 @@ job("Telenor-Pipeline/recleanup_staging") {
   }
 }
 
-job("Telenor-Pipeline/deploy_to_production") {
+job("Simple-Pipeline/deploy_to_production") {
   scm {
       git {
           remote {
@@ -207,7 +207,7 @@ job("Telenor-Pipeline/deploy_to_production") {
   }
 
   publishers {
-    buildPipelineTrigger('Telenor-Pipeline/rollback-production') {
+    buildPipelineTrigger('Simple-Pipeline/rollback-production') {
         parameters {
             predefinedProp('GIT_COMMIT', '$GIT_COMMIT')
         }
@@ -215,7 +215,7 @@ job("Telenor-Pipeline/deploy_to_production") {
   }
 }
 
-job("Telenor-Pipeline/rollback-production") {
+job("Simple-Pipeline/rollback-production") {
   scm {
       git {
           remote {
