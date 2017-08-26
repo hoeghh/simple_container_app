@@ -66,9 +66,6 @@ job("Simple-Pipeline/deploy_to_staging") {
   }
 
   steps {
-    shell("kubectl config use-context default-context")
-  }
-  steps {
     shell("cd simple-container-app/scripts/; ./deploy-staging.sh \$GIT_COMMIT")
   }
 
@@ -153,9 +150,6 @@ job("Simple-Pipeline/redeploy_to_staging") {
       }
   }
 
-  steps {
-    shell("kubectl config use-context default-context")
-  }
   steps {
     shell("cd simple-container-app/scripts/; ./deploy-staging.sh \$GIT_COMMIT")
   }
